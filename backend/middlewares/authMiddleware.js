@@ -23,15 +23,3 @@ const isAuthenticated = async (req, res, next) => {
 };
 
 module.exports = {isAuthenticated}
-
-// export const authorizeRoles = (...roles) => {
-//   return (req, res, next) => {
-//     if (!roles.includes(req.user.role)) {
-//       return res.json({
-//       status: "error",
-//       message: "token not found",
-//     });
-//     }
-//     next();
-//   };
-// };

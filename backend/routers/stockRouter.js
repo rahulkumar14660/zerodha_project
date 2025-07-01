@@ -12,7 +12,7 @@ const {
 
 router.get("/allHoldings", isAuthenticated, getAllHoldings);
 router.get("/allPositions", isAuthenticated, getAllPositions);
-router.post("/newOrder", postNewOrder);
-router.post("/deleteOrder", deleteOrder);
+router.post("/newOrder", isAuthenticated, postNewOrder);
+// router.post("/deleteOrder", deleteOrder);
 
 module.exports = router;

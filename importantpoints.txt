@@ -24,3 +24,18 @@ In backend
 -> npm i bcrypt
 -> npm i jsonwebtoken
 -> npm i cookie-parser
+
+GitHub
+git init
+git add .
+git commit -m "first version of the project"
+
+git branch -M main
+git remote add origin https://github.com/rahulkumar14660/zerodha_project.git
+git push -u origin main
+
+update changes in git repo
+
+git add .
+git commit -m "commit message"
+git push
