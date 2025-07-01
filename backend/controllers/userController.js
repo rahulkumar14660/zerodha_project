@@ -83,4 +83,29 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const verifyUser = async (req, res) => {
+  const { token } = req.cookies;
+  if (!token) {
+    return res.json({ status: "error", message: "No token found" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "my_secret_key");
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.json({ status: "error", message: "Invalid user" });
+    }
+
+    res.json({ status: "success", user });
+  } catch (error) {
+    res.json({ status: "error", message: "Token is invalid" });
+  }
+};
+
+const logoutUser = async (req, res) => {
+  res
+    .cookie("token", "", { expires: new Date(0), httpOnly: true })
+    .json({ status: "success", message: "Logged out successfully" });
+};
+
+module.exports = { registerUser, loginUser, verifyUser, logoutUser };

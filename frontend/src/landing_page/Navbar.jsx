@@ -1,77 +1,78 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  console.log("Navbar Rendered — isAuthenticated:", isAuthenticated); // 👈 debug log
+
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:3002/api/logout", { withCredentials: true });
+      setIsAuthenticated(false);
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
+
   return (
-    <>
-      <nav
-        className="navbar navbar-expand-lg border-bottom"
-        style={{ backgroundColor: "#FFF" }}
-      >
-        <div className="container p-2">
-          <Link className="navbar-brand" to="/">
-            <img
-              src="media/images/logo.svg"
-              style={{ width: "25%" }}
-              alt="Logo"
-            />
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+    <nav className="navbar navbar-expand-lg border-bottom" style={{ backgroundColor: "#FFF" }}>
+      <div className="container p-2">
+        <Link className="navbar-brand" to="/">
+          <img src="media/images/logo.svg" style={{ width: "25%" }} alt="Logo" />
+        </Link>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <form className="d-flex" role="search">
-              <ul className="navbar-nav mb-lg-0">
-                <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/signup">
-                    Signup
-                  </Link>
-                </li>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ms-auto">
+            {!isAuthenticated && (
+              <>
                 <li className="nav-item">
-                  <Link className="nav-link active" to="/login">
-                    Login
-                  </Link>
+                  <Link className="nav-link" to="/signup">Signup</Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">Login</Link>
+                </li>
+              </>
+            )}
 
-                <li className="nav-item">
-                  <Link className="nav-link active" to="/about">
-                    About
-                  </Link>
-                </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/about">About</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/products">Products</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/pricing">Pricing</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/support">Support</Link>
+            </li>
 
-                <li className="nav-item">
-                  <Link className="nav-link active" to="/products">
-                    Products
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link active" to="/pricing">
-                    Pricing
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link active" to="/support">
-                    Support
-                  </Link>
-                </li>
-              </ul>
-            </form>
-          </div>
+            {isAuthenticated && (
+              <li className="nav-item">
+                <button className="nav-link" to="#" onClick={handleLogout}>Logout</button>
+              </li>
+            )}
+          </ul>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }
 
