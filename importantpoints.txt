@@ -1,0 +1,26 @@
+React SetUp
+
+To install react router to enable the links
+-> npm i install react-router-dom
+
+In dashboard
+=> cd dashboard
+-> npm i axios
+-> npm install chart.js react-chartjs-2
+
+In backend
+=> cd backend
+-> npm init(to initialize express application)
+   change in package.json
+-> npm i -D nodemon
+-> npm i express
+-> npm i body-parser
+-> npm i cors
+-> npm i dotenv
+-> npm i mongoose
+-> npm i passport
+-> npm i passport-local
+-> npm i passport-local-mongoose
+-> npm i bcrypt
+-> npm i jsonwebtoken
+-> npm i cookie-parser

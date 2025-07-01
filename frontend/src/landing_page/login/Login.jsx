@@ -1,36 +1,91 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-    return ( 
-        <>
-            <div className="container">
-                
-                <div class="row" style={{marginTop: "100px"}}>
-                    <h1 class="col-6 offset-3">Login</h1>
-                <div class="col-6 offset-3">
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
-                    <form action="/login" method="POST" class="needs-validation" novalidate>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input name="username" id="username" type="text" class="form-control" required />
-                        </div>            
-                        
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input name="password" id="password" type="password" class="form-control" required />
-                        </div>
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log("Login Data Submitted:", loginData);
 
-                        <button class="btn btn-success">Login</button>
+    axios
+      .post("http://localhost:3002/api/login", loginData, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log("Login Success:", response.data);
+        setLoginData({
+          email: "",
+          password: "",
+        });
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.error("Login Failed:", error.response?.data || error.message);
+      });
+  };
 
-                    </form>
+  return (
+    <>
+      <div className="container">
+        <div className="row" style={{ marginTop: "100px" }}>
+          <h1 className="col-6 offset-3">Login</h1>
+          <div className="col-6 offset-3">
+            <form
+              onSubmit={handleLogin}
+              className="needs-validation"
+              noValidate
+            >
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  name="email"
+                  id="email"
+                  type="email"
+                  className="form-control"
+                  value={loginData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-                </div>
-            </div>
-                
-            </div>
-        </>
-     );
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  name="password"
+                  id="password"
+                  type="password"
+                  className="form-control"
+                  value={loginData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <button className="btn btn-success">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Login;

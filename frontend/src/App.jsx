@@ -14,6 +14,8 @@ import SupportPage from "./landing_page/support/SupportPage"
 import NotFound from './landing_page/NotFound'
 import Navbar from './landing_page/Navbar'
 import Footer from './landing_page/Footer'
+import Dashboard from "./components/Dashboard";
+
 
 function App() {
 
@@ -29,6 +31,7 @@ function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/support" element={<SupportPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
