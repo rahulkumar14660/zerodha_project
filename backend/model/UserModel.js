@@ -14,7 +14,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    stocksBought: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "order",
+        }
+    ]
 });
 
 const User = mongoose.model("user", userSchema);

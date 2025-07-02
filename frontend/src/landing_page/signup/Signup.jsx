@@ -31,6 +31,8 @@ function Signup() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
+        }, {
+          withCredentials: true, 
         })
         .then((response) => {
           console.log("Login Success:", response.data);

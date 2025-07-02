@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import './BuyActionWindow.css';
-
+import "./BuyActionWindow.css";
 import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
-
-const BuyActionWindow = ({ uid }) => {
+import { watchList } from "../data/data"; 
+const BuyActionWindow = ({ uid, isOrderAdded, setIsOrderAdded }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
+  const { closeBuyWindow } = useContext(GeneralContext);
+
+  useEffect(() => {
+    const stock = watchList.find((item) => item.name === uid);
+    if (stock) {
+      setStockPrice(stock.price);
+    }
+  }, [uid]);
 
   const handleBuyClick = () => {
-    axios.post("http://localhost:3002/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
-
-    GeneralContext.closeBuyWindow();
+    axios
+      .post(
+        "http://localhost:3002/newOrder",
+        {
+          name: uid,
+          qty: stockQuantity,
+          price: stockPrice,
+          mode: "BUY",
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log("Buy order response:", response.data);
+        if (response.data.status === "error") {
+          alert("Order failed: " + response.data.message);
+        } else {
+          setIsOrderAdded((prev) => !prev);
+          closeBuyWindow();
+        }
+      })
+      .catch((error) => {
+        console.error("Buy order error:", error);
+        alert("Order failed due to network or server error.");
+      });
   };
 
   const handleCancelClick = () => {
-    GeneralContext.closeBuyWindow();
+    closeBuyWindow();
   };
 
   return (
@@ -46,8 +70,8 @@ const BuyActionWindow = ({ uid }) => {
               name="price"
               id="price"
               step="0.05"
-              onChange={(e) => setStockPrice(e.target.value)}
               value={stockPrice}
+              disabled // Disable the price input
             />
           </fieldset>
         </div>

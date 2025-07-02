@@ -16,10 +16,14 @@ import Navbar from './landing_page/Navbar';
 import Footer from './landing_page/Footer';
 import Dashboard from "./components/Dashboard";
 
-import { AuthContext } from "./context/AuthContext"; // keep this import
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
-  const { isAuthenticated } = useContext(AuthContext); // ✅ call useContext inside the component
+  const { isAuthenticated, authLoading } = useContext(AuthContext);
+
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <BrowserRouter>

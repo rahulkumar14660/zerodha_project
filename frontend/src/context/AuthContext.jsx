@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const checkAuth = async () => {
     try {
@@ -14,6 +15,8 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(res.data.status === "success");
     } catch {
       setIsAuthenticated(false);
+    } finally {
+      setAuthLoading(false); 
     }
   };
 
@@ -22,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, checkAuth }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, checkAuth, authLoading }}>
       {children}
     </AuthContext.Provider>
   );

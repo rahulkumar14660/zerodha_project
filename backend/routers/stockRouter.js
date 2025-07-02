@@ -8,11 +8,14 @@ const {
   getAllPositions,
   postNewOrder,
   deleteOrder,
+  getUserStocks,
 } = require("../controllers/stockControllers.js");
 
 router.get("/allHoldings", isAuthenticated, getAllHoldings);
 router.get("/allPositions", isAuthenticated, getAllPositions);
 router.post("/newOrder", isAuthenticated, postNewOrder);
+router.post("/deleteOrder/:id", isAuthenticated, deleteOrder);
+router.get("/getStocks", isAuthenticated, getUserStocks);
 // router.post("/deleteOrder", deleteOrder);
 
 module.exports = router;

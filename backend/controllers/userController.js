@@ -39,6 +39,8 @@ const loginUser = async (req, res) => {
     .cookie("token", token, {
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      sameSite: "lax", // Add this line
+      secure: false,    // Add this line (set to true if using HTTPS)
     })
     .json({
       user: user,
@@ -73,6 +75,8 @@ const registerUser = async (req, res) => {
       .cookie("token", token, {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
+        sameSite: "lax", // Add this line
+        secure: false,    // Add this line (set to true if using HTTPS)
       })
       .json({
         user: user,
