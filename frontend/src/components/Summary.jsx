@@ -3,7 +3,7 @@ import axios from "axios";
 import GeneralContext from "./GeneralContext";
 
 function Summary() {
-      const { isOrderAdded, setIsOrderAdded } = useContext(GeneralContext);
+  const { isOrderAdded, setIsOrderAdded } = useContext(GeneralContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
