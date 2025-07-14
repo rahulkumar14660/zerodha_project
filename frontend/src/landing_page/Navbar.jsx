@@ -7,7 +7,7 @@ function Navbar() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log("Navbar Rendered — isAuthenticated:", isAuthenticated); // 👈 debug log
+  console.log("Navbar Rendered — isAuthenticated:", isAuthenticated);
 
   const handleLogout = async () => {
     try {
@@ -49,6 +49,12 @@ function Navbar() {
                   <Link className="nav-link" to="/login">Login</Link>
                 </li>
               </>
+            )}
+
+            {isAuthenticated && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/dashboard">Dashboard</Link>
+              </li>
             )}
 
             <li className="nav-item">
