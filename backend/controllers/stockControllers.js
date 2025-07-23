@@ -26,11 +26,11 @@ const postNewOrder = async (req, res) => {
       mode: req.body.mode,
     });
     const savedOrder = await newOrder.save();
-    console.log(savedOrder)
+    // console.log(savedOrder)
     user.stocksBought.push(savedOrder._id);
     await user.save();
 
-    // console.log(user);
+    console.log(user);
     return res.json({ status: "success", message: "Order saved!" });
   } catch (err) {
     console.error("Order creation error:", err);
