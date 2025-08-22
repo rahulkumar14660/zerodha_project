@@ -13,7 +13,7 @@ const uri = process.env.MONGO_URL;
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow both
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://zerodhaprojectt.netlify.app'], // Allow both
   credentials: true
 }));
 
